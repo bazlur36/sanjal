@@ -7,55 +7,260 @@
 
 ---
 
-## 📅 WEEK 1: DATA COLLECTION & TECHNICAL FIXES
-**Focus:** Export GSC data + Fix 404s/5xx errors + Configure settings
+## 📅 WEEK 1: AGGRESSIVE OPTIMIZATION & FOUNDATION
+**Focus:** Intent mapping + Aggressive robots.txt + Title control + Technical fixes  
+**Updated:** January 19, 2026 - Incorporates client feedback on aggressive SEO
 
-### DAY 1: Google Search Console Data Export
+---
 
-#### Task 1: Export "Crawled - Not Indexed" Data
-**Time Required:** 30 minutes
+### 🎯 WEEK 1 OVERVIEW (Revised Priorities)
+
+**Based on client research and feedback, Week 1 now prioritizes:**
+1. **Category Intent Mapping** (Day 1) - Align categories with real search queries
+2. **Aggressive robots.txt** (Day 1-2) - Block all junk immediately
+3. **Title Emergency Audit** (Day 2-3) - Fix worst titles first
+4. **Technical Error Fixes** (Day 3-4) - Resolve 404s and 5xx errors
+5. **Aggressive Noindexing** (Day 5-7) - Remove 300-500 lowest quality pages
+
+**Key Documents to Reference:**
+- `04-category-intent-mapping-guide.md` - Category optimization
+- `05-aggressive-robots-noindex-strategy.md` - Blocking strategy
+
+---
+
+### DAY 1: CATEGORY INTENT MAPPING (NEW PRIORITY)
+
+#### Task 1: Research Actual Search Queries
+**Time Required:** 1-2 hours  
+**Why First:** Categories must match search intent or nothing else matters
 
 **Step-by-Step:**
-1. Go to [Google Search Console](https://search.google.com/search-console)
-2. Select your property: `sanjal.com`
-3. Navigate to: **Indexing → Pages**
-4. Scroll to "Why pages aren't indexed" section
-5. Click on **"Crawled - currently not indexed"** (4,840 pages)
-6. Click **"Export"** button (top right)
-7. Choose **"Export by page"**
-8. Download as **CSV**
-9. Save file as: `not-indexed-pages-2026-01-15.csv`
+1. Open **Google Search Console**
+2. Go to: **Performance → Queries**
+3. Export queries (last 3 months)
+4. Identify top search patterns:
+   ```
+   ☐ What are users actually searching for?
+   ☐ What keywords appear most?
+   ☐ What locations are mentioned?
+   ☐ What questions are asked?
+   ```
 
-**What you'll get:** A CSV file with all 4,840 URLs that Google won't index
+5. **Use Google Autocomplete Research:**
+   ```
+   Type in Google:
+   - "nepal [your main topics]"
+   - "[your niche] how to"
+   - "[your niche] best"
+   
+   Document all autocomplete suggestions
+   ```
 
-#### Task 2: Export Technical Error Data
+6. **Create Search Query Spreadsheet:**
+   ```
+   Search Query | Monthly Volume | Current Category | Should Be In
+   ```
+
+**Deliverable:** List of 20-30 actual search queries your content should target
+
+#### Task 2: Audit Current Categories Against Search Intent
+**Time Required:** 1 hour
+
+**For EACH category on your forum:**
+1. List current category name and description
+2. Check if it matches any search queries from Task 1
+3. Rate alignment:
+   ```
+   ✅ Perfect - Category name includes search keywords
+   🟡 Good - Relevant but name could improve  
+   🟠 Fair - Too broad or vague
+   ❌ Poor - Doesn't match any search queries
+   ```
+
+**Use Category Intent Mapping Worksheet:**
+```
+See: 04-category-intent-mapping-guide.md
+Complete worksheet for each major category
+```
+
+#### Task 3: Plan Category Restructuring
+**Time Required:** 30 minutes
+
+**Identify Actions Needed:**
+```
+RENAME: Categories with poor search alignment
+→ "General Discussion" → "Nepal Current Affairs & News"
+
+MERGE: Duplicate or similar categories
+→ Combine 3 travel categories → "Nepal Travel & Trekking"
+
+SPLIT: Overly broad categories
+→ "Sports" → "Nepal Cricket News" + "Nepal Football Updates"
+
+DELETE: Unused or spam categories
+→ Archive if < 10 topics and no value
+```
+
+**Deliverable:** Category restructuring plan for implementation in Week 2
+
+---
+
+### DAY 1-2: IMPLEMENT AGGRESSIVE ROBOTS.TXT
+
+#### Task 1: Backup Current Configuration
+**Time Required:** 10 minutes
+
+**Backup Steps:**
+1. Visit: https://sanjal.com/robots.txt
+2. Copy entire contents
+3. Save to file: `robots-txt-backup-2026-01-19.txt`
+4. Also screenshot current GSC metrics as baseline
+
+#### Task 2: Deploy Enhanced robots.txt
+**Time Required:** 30 minutes
+
+**In Discourse Admin:**
+```
+1. Go to: Admin → Customize → robots.txt
+2. Replace entire contents with aggressive version from:
+   05-aggressive-robots-noindex-strategy.md
+3. Click "Save"
+4. Verify live at: https://sanjal.com/robots.txt
+```
+
+**New Blocking Includes:**
+```
+✅ Tag archives (/tag/, /tags/, /tag/*/l/)
+✅ Pagination (/*?page=*, /*&page=*, /t/*?page=*)
+✅ Activity feeds (/latest, /top, /categories)
+✅ Category list views (/c/*/l/)
+✅ All duplicate formats (/*.json, /*.rss)
+✅ User notifications (/notifications, /my/*)
+```
+
+#### Task 3: Test & Verify Blocking
+**Time Required:** 30 minutes
+
+**Test These URLs (should be BLOCKED):**
+```
+❌ https://sanjal.com/u/any-username
+❌ https://sanjal.com/tag/any-tag
+❌ https://sanjal.com/latest
+❌ https://sanjal.com/t/any-topic/123?page=2
+```
+
+**Test These URLs (should be ALLOWED):**
+```
+✅ https://sanjal.com/t/any-topic/123
+✅ https://sanjal.com/c/any-category
+✅ https://sanjal.com/uploads/
+```
+
+**Use Google's Robots.txt Tester:**
+```
+1. Go to: https://search.google.com/test/robots-txt-tester
+2. Enter sanjal.com
+3. Paste robots.txt content
+4. Test sample URLs
+5. Verify correct blocking/allowing
+```
+
+**Deliverable:** Enhanced robots.txt live and verified
+
+---
+
+### DAY 2-3: TITLE EMERGENCY AUDIT
+
+#### Task 1: Export All Topic URLs (Already Done)
+**Time Required:** 5 minutes
+
+**File Available:**
+```
+gsc_all_urls_complete.csv - Contains all 4,373 topic URLs
+Location: gsc-analysis-and-action-plan/gsc_all_urls_complete.csv
+```
+
+#### Task 2: Sample & Rate Titles
+**Time Required:** 2 hours
+
+**Process:**
+1. Open the CSV file with all 4,373 URLs
+2. Visit first 50 URLs randomly
+3. Rate each title:
+   ```
+   SCORING:
+   5 = Perfect - Descriptive, keyword-rich, 40-60 chars
+   4 = Good - Clear but could add keywords
+   3 = Fair - Too generic or vague
+   2 = Poor - User slang, no keywords
+   1 = Terrible - "Help!" "Question" "Please read"
+   ```
+
+4. **Create Title Audit Spreadsheet:**
+   ```
+   URL | Current Title | Score | Keywords Missing | Proposed New Title
+   ```
+
+#### Task 3: Identify Worst 100 Titles
+**Time Required:** 1 hour
+
+**Sort by score and find patterns:**
+```
+Common bad title patterns:
+❌ "Help please"
+❌ "Question"
+❌ "Anyone know?"
+❌ "Urgent!!!"
+❌ Single word titles
+❌ All caps titles
+❌ No context titles
+```
+
+**Create priority list of 100 worst titles to fix immediately**
+
+#### Task 4: Fix First 20 Titles
+**Time Required:** 2 hours (6 min per title)
+
+**Title Rescue Formula:**
+```
+[Topic] + [Specific Detail] + [Value/Benefit] + [Year if relevant]
+
+Examples:
+❌ "Visa help" 
+✅ "Complete Guide to Nepal Tourist Visa Requirements 2026"
+
+❌ "Bus to Pokhara?"
+✅ "Kathmandu to Pokhara Bus: Routes, Prices & Travel Tips"
+
+❌ "Cricket news"
+✅ "Nepal Cricket Team News: Latest Matches & Rankings"
+```
+
+**In Discourse Admin:**
+```
+1. Open topic
+2. Edit title (pencil icon)
+3. Rewrite using formula above
+4. Click Save
+5. Track in spreadsheet
+```
+
+**Deliverable:** 20 titles optimized, 80 more identified for Week 2
+
+---
+
+### DAY 3-4: FIX TECHNICAL ERRORS
+
+#### Task 1: Export Error Data from GSC
 **Time Required:** 15 minutes
 
 **Export Each Error Type:**
 ```
 ☐ Not found (404) - 9 pages → Save as "404-errors.csv"
-☐ Server error (5xx) - 5 pages → Save as "5xx-errors.csv"  
-☐ Soft 404 - 1 page → Save as "soft-404.csv"
+☐ Server error (5xx) - 5 pages → Save as "5xx-errors.csv"
 ```
 
-**Same process:** Click each error type → Export → Download CSV
-
-#### Task 3: Organize Your Data
-**Time Required:** 10 minutes
-
-**Create a folder structure on your computer:**
-```
-sanjal-seo-project/
-├── gsc-exports/
-│   ├── not-indexed-pages-2026-01-15.csv
-│   ├── 404-errors.csv
-│   ├── 5xx-errors.csv
-│   └── soft-404.csv
-├── content-audit/
-│   └── (will use later)
-└── tracking/
-    └── (will use later)
-```
+**Same process:** GSC → Pages → Click error type → Export → Download CSV
 
 ---
 

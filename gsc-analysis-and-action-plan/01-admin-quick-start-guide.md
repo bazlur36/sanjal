@@ -296,82 +296,144 @@ Disallow: /*?page=*
 
 ---
 
-## 🚀 YOUR IMMEDIATE NEXT STEPS
+## 🚀 YOUR IMMEDIATE NEXT STEPS (UPDATED PRIORITIES)
 
-### Step 1: Review Extracted URL Data (Today)
-**Good news:** All URLs have been automatically extracted and are ready for analysis!
+**⚠️ IMPORTANT:** Based on client feedback, Week 1 priorities have been revised. Follow the NEW sequence below.
+
+### Step 1: Category Intent Mapping (Day 1 - HIGHEST PRIORITY)
+**Time:** 2-3 hours  
+**Why First:** Categories must align with search queries or nothing else matters
+
+**Guide:** See `04-category-intent-mapping-guide.md` for complete methodology
+
+**Quick Start:**
+1. **Open Google Search Console**
+   - Go to: Performance → Queries
+   - Export queries (last 3 months)
+   - Identify what users actually search for
+
+2. **Audit Your Categories**
+   - List all current forum categories
+   - Check if names match search queries
+   - Rate alignment: Perfect / Good / Fair / Poor
+
+3. **Create Restructuring Plan**
+   - Rename vague categories (e.g., "General" → "Nepal Current Affairs")
+   - Map each category to real search intent
+   - Document changes needed
+
+**Next:** Proceed to aggressive blocking
+
+### Step 2: Implement Aggressive robots.txt (Day 1-2)
+**Time:** 1 hour  
+**Why:** Block junk immediately so Google focuses on quality content
+
+**Guide:** See `05-aggressive-robots-noindex-strategy.md` for complete implementation
+
+**Quick Start:**
+1. **Backup Current robots.txt**
+   - Visit: https://sanjal.com/robots.txt
+   - Copy entire contents
+   - Save as backup
+
+2. **Deploy Enhanced Version**
+   - Admin → Customize → robots.txt
+   - Copy new version from guide document
+   - Blocks: tag archives, pagination, activity feeds
+   - Save and verify
+
+3. **Test the Blocking**
+   - Use Google's robots.txt tester
+   - Verify tag pages are blocked
+   - Verify topic pages are allowed
+
+**Next:** Title emergency audit
+
+### Step 3: Title Emergency Audit (Day 2-3)
+**Time:** 3-4 hours  
+**Why:** Titles are your H1/keyword - bad titles = no traffic
 
 **Files Available:**
-1. **Primary Dataset:** `gsc_all_urls_complete.csv` (4,373 topic URLs from sitemap)
-   - Location: Root directory and `gsc-analysis-and-action-plan/` folder
-   - Content: All topic pages (`/t/...`) - your main optimization targets
-   - Status: All marked as "Crawled - not indexed"
+- `gsc_all_urls_complete.csv` - All 4,373 topic URLs ready
 
-2. **Understanding the Data:**
-   - ✅ **4,373 URLs** = Topic pages from sitemap (highest SEO value)
-   - ⚠️ **466 URLs missing** = Tag/category pages (lower priority)
-   - 🎯 **Total in GSC: 4,839** = All pages Google has crawled
+**Quick Start:**
+1. **Sample 50 Random Titles**
+   - Open CSV file
+   - Visit random URLs
+   - Rate each title 1-5 (1=terrible, 5=perfect)
 
-**What the 466 missing URLs are:**
-- Tag archive pages (e.g., `/tag/basketball`)
-- Category listing pages (e.g., `/c/sports`)
-- User profile pages (e.g., `/u/username`)
-- Other navigation pages (lower SEO value)
+2. **Identify Worst 100**
+   - Find patterns: "Help!" "Question" "Anyone?"
+   - Create priority list
 
-**Do you need all 4,839 URLs?**
-- For most SEO work: **NO** - the 4,373 topic pages are sufficient
-- Topics are your valuable content, tags/categories are navigation
-- See `HOW-TO-GET-ALL-4839-URLS.md` if you need the complete list
+3. **Fix First 20 Titles**
+   - Use formula: [Topic] + [Detail] + [Value] + [Year]
+   - Example: "Help plz" → "Nepal Visa Guide 2026: Requirements & Fees"
 
-**Scripts Available (For Future Use):**
-```bash
-# Re-fetch URLs from sitemap (if needed)
-ruby fetch_all_urls_from_sitemap.rb
+**Next:** Technical fixes
 
-# Merge multiple GSC exports (if you export batches manually)
-ruby merge_gsc_batches.rb
-```
+### Step 4: Fix Technical Errors (Day 3-4)
+**Time:** 1-2 hours
 
-### Step 2: Configure Basic Settings (Today)
-**Admin → Settings → Search and Configure:**
-```
-✅ min first post length = 100
-✅ min post length = 20
-✅ allow uncategorized topics = false
-✅ Verify sitemap generation = enabled
-```
+1. **Export from GSC**
+   - 404 errors (9 pages)
+   - 5xx errors (5 pages)
 
-### Step 3: Fix Technical Errors (This Week)
-1. **Get 404 URLs from GSC**
-   - Pages → Not found (404) → Export
-2. **Check if content exists**
-   - Admin → Search for topic IDs
-3. **Set up redirects if needed**
-   - Admin → Customize → Permalinks
+2. **Fix or Redirect**
+   - Check if topics exist
+   - Set up redirects: Admin → Customize → Permalinks
 
-### Step 4: Start Content Audit (This Week)
-1. **Open the URL list:** `gsc_all_urls_complete.csv`
-   - All 4,373 URLs are already marked "Crawled - not indexed"
-   - These are all topic pages - your optimization targets
-   
-2. **Sample Review Process:**
-   - Visit 20-30 random URLs from the list
-   - Note common quality issues (thin content, poor titles, no images)
-   - Identify content themes (basketball, politics, tech, etc.)
-   - Look for quick wins (good content with minor issues)
+**Next:** Aggressive noindexing
 
-3. **Categorize URLs:**
-   - ✅ **High Priority:** Good topics needing minor improvements
-   - 🟡 **Medium Priority:** Decent content needing work
-   - ⚠️ **Low Priority:** Thin content, consider merge/noindex
-   - 🗑️ **Delete Candidates:** Spam, duplicates, no value
+### Step 5: Aggressive Noindexing (Day 5-7)
+**Time:** 2-3 hours  
+**Why:** Remove 300-500 worst pages immediately
 
-4. **Start with Quick Wins:**
-   - Find 10-20 URLs with good potential
-   - Improve titles, add images, enhance content
-   - Track which ones get indexed in GSC
+**Quick Start:**
+1. **Create "Low Value Archive" Category**
+   - Admin → Categories → New
+   - Settings: Include in search = ✗ unchecked
 
-**Next:** Use the Week-by-Week Action Plan for detailed optimization steps
+2. **Identify Worst Pages**
+   - No replies or 1-2 replies
+   - < 20 views
+   - Spam/thin content
+
+3. **Bulk Move**
+   - Select topics → Bulk Actions
+   - Move to archive category
+
+**Next:** Continue with Week 2 content improvements
+
+---
+
+## 📋 DATA ALREADY AVAILABLE
+
+**Good news:** All URLs have been automatically extracted!
+
+**Files Ready:**
+1. **Primary Dataset:** `gsc_all_urls_complete.csv` (4,373 topic URLs)
+   - Location: `gsc-analysis-and-action-plan/` folder
+   - All topic pages marked "Crawled - not indexed"
+
+2. **What to focus on:**
+   - ✅ **4,373 URLs** = Topic pages (your optimization targets)
+   - ⚠️ **466 URLs missing** = Tag/category pages (will be blocked by robots.txt)
+
+---
+
+## 📖 WHICH GUIDES TO USE
+
+**For immediate implementation:**
+1. **02-week-by-week-action-plan.md** ← START HERE for day-by-day tasks
+2. **04-category-intent-mapping-guide.md** ← For Day 1 category work
+3. **05-aggressive-robots-noindex-strategy.md** ← For Day 1-2 blocking
+
+**For reference:**
+4. **03-content-quality-handbook.md** ← When improving individual topics
+5. **01-admin-quick-start-guide.md** ← This file (overview & capabilities)
+
+**Next:** Open `02-week-by-week-action-plan.md` and start Week 1, Day 1
 
 ---
 

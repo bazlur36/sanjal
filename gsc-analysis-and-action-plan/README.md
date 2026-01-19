@@ -10,7 +10,9 @@
 
 ## 📂 FOLDER CONTENTS
 
-This folder contains **3 comprehensive guides** to help you fix Sanjal.com's indexing issues using only admin panel access.
+This folder contains **5 comprehensive guides** to help you fix Sanjal.com's indexing issues using only admin panel access.
+
+**UPDATED:** January 19, 2026 - Added aggressive SEO strategies based on client feedback
 
 ### **Files in This Folder:**
 
@@ -21,9 +23,9 @@ This folder contains **3 comprehensive guides** to help you fix Sanjal.com's ind
    - Admin panel navigation guide
    - Quick reference for all tasks
 
-2. **02-week-by-week-action-plan.md**
+2. **02-week-by-week-action-plan.md** (⭐ UPDATED - Day 1 priorities revised)
    - Detailed 4-week implementation plan
-   - Day-by-day task breakdown
+   - Day-by-day task breakdown with NEW Week 1 priorities
    - Step-by-step procedures
    - Time estimates for each task
    - Tracking templates
@@ -35,7 +37,21 @@ This folder contains **3 comprehensive guides** to help you fix Sanjal.com's ind
    - Improvement techniques
    - Tracking methods
 
-4. **README.md** (this file)
+4. **04-category-intent-mapping-guide.md** (🆕 NEW - Critical for SEO)
+   - Align categories with actual search queries
+   - Search intent research methodology
+   - Category restructuring strategies
+   - Before/after examples
+   - Implementation checklist
+
+5. **05-aggressive-robots-noindex-strategy.md** (🆕 NEW - Aggressive blocking)
+   - Enhanced robots.txt configuration
+   - Three-tier blocking strategy
+   - Noindexing low-quality content
+   - Implementation and testing guide
+   - Monitoring and validation
+
+6. **README.md** (this file)
    - Navigation guide
    - Quick start instructions
 
@@ -359,8 +375,10 @@ Google is slow. Allow 4-12 weeks for indexing changes to appear. Focus on the wo
 | File | Purpose | When to Use |
 |------|---------|-------------|
 | **01-admin-quick-start-guide.md** | Overview & capabilities | First read, reference |
-| **02-week-by-week-action-plan.md** | Daily implementation | Daily execution |
+| **02-week-by-week-action-plan.md** | Daily implementation (UPDATED) | Daily execution |
 | **03-content-quality-handbook.md** | Content improvement | During audits |
+| **04-category-intent-mapping-guide.md** | Category SEO alignment (NEW) | Day 1, ongoing |
+| **05-aggressive-robots-noindex-strategy.md** | Block junk content (NEW) | Day 1-2, reference |
 | **README.md** | Navigation guide | You're here! |
 
 ---
