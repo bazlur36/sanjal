@@ -1,0 +1,159 @@
+# ===========================================
+# Sanjal.com Robots Configuration
+# UPDATED: Aggressive SEO Optimization
+# Date: January 20, 2026
+# Platform: Discourse (Sanjal)
+# ===========================================
+
+Sitemap: https://sanjal.com/sitemap.xml
+
+# -------------------------------------------
+# 1. Global Rules (User-agent: *)
+# -------------------------------------------
+User-agent: *
+
+# --- CRITICAL: Save Crawl Budget (Don't index these) ---
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /email/
+Disallow: /session
+Disallow: /my
+Disallow: /my/*
+Disallow: /user-api-key
+Disallow: /search
+Disallow: /search?q=
+Disallow: /g
+Disallow: /badges
+Disallow: /groups/
+
+# --- BLOCK PROFILES: Focus SEO on Content, not Users ---
+# (User profiles are low-quality pages for SEO)
+Disallow: /u/
+Disallow: /users/
+Disallow: /p/
+Disallow: /u/*/summary
+Disallow: /u/*/activity
+Disallow: /u/*/notifications
+Disallow: /u/*/messages
+Disallow: /u/*/preferences
+
+# --- BLOCK TAG ARCHIVES: Thin Content Lists ---
+# NEW: Client requested aggressive tag blocking
+Disallow: /tag/
+Disallow: /tags/
+Disallow: /tag/*/l/
+Disallow: /tags/*/l/
+
+# --- BLOCK CATEGORY LIST VIEWS: Keep main pages only ---
+# NEW: Block archive/list views, allow main category pages
+Disallow: /c/*/l/
+Disallow: /c/*/l/latest
+Disallow: /c/*/l/top
+
+# --- BLOCK ACTIVITY FEEDS: Duplicate Content ---
+# NEW: Major crawl budget waste
+Disallow: /latest
+Disallow: /latest.json
+Disallow: /top
+Disallow: /top.json
+Disallow: /categories
+Disallow: /categories.json
+Disallow: /unread
+Disallow: /new
+
+# --- BLOCK PAGINATION: Duplicate Content ---
+# NEW: Critical - stops Google from crawling infinite pages
+Disallow: /*?page=*
+Disallow: /*&page=*
+Disallow: /*?*page=*
+Disallow: /t/*?page=*
+Disallow: /c/*?page=*
+
+# --- BLOCK DUPLICATE VIEWS & FORMATS ---
+Disallow: /*?print=
+Disallow: /*?order=
+Disallow: /*?status=
+Disallow: /*?ascending=
+Disallow: /*?descending=
+Disallow: /t/*/*.rss
+Disallow: /c/*.rss
+Disallow: /*.json
+Disallow: /*.json?*
+
+# --- BLOCK JUNK PARAMS ---
+Disallow: /*?api_key*
+Disallow: /*?api_username*
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+Disallow: /*?u=*
+
+# --- BLOCK USER NOTIFICATIONS & PERSONAL VIEWS ---
+# NEW: No SEO value
+Disallow: /notifications
+
+# --- ALLOW ASSETS ---
+Allow: /uploads/
+Allow: /stylesheets/
+Allow: /images/
+Allow: /assets/
+
+# Only allow main topic pages: /t/topic-slug/id
+# Only allow main category pages: /c/category-slug
+
+# -------------------------------------------
+# 2. The "AI Green List" (Explicitly Welcome AI)
+# -------------------------------------------
+# OpenAI (ChatGPT)
+User-agent: GPTBot
+Allow: /
+
+# Common Crawl (Used to train most future AIs)
+User-agent: CCBot
+Allow: /
+
+# Google's AI
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# -------------------------------------------
+# 3. Block Useless Scrapers (Save Server CPU)
+# -------------------------------------------
+User-agent: mauibot
+Disallow: /
+
+User-agent: semrushbot
+Disallow: /
+
+User-agent: ahrefsbot
+Disallow: /
+
+User-agent: blexbot
+Disallow: /
+
+User-agent: seo spider
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ===========================================
+# END OF ROBOTS.TXT
+# ===========================================

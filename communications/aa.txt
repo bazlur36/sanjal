@@ -1,0 +1,572 @@
+﻿Here’s a Replit-ready build spec / “agent prompt” you can paste into Replit (or hand to a dev). It’s written to produce a working MVP first, then iterate into a full multi-tenant visitor management platform.
+________________
+
+
+Replit Build Spec (Copy/Paste to Replit Agent)
+Goal
+Build a multi-tenant Visitor Management System (VMS) with:
+* Tenants (organizations) → Locations → Kiosks
+
+* Visitor types / sign-in flows
+
+* Invites (pre-registration)
+
+* Kiosk check-in/out
+
+* Host notifications
+
+* Visitor log + exports
+
+* Badge generation/printing (browser print + PDF badge)
+
+MVP should be secure (tenant isolation), simple, and deployable in Replit.
+
+________________
+
+
+1) Tech Stack (use exactly this unless impossible)
+Runtime
+   * Node.js 20+
+
+   * TypeScript
+
+Web app
+      * Next.js (App Router) + React
+
+      * TailwindCSS for UI
+
+      * shadcn/ui components (optional if time)
+
+DB + ORM
+         * Postgres (preferred). Use DATABASE_URL env var.
+
+         * Prisma ORM + migrations
+
+Auth
+            * Auth.js (NextAuth) with Email/Password (credentials provider) for MVP
+
+            * Session strategy: JWT
+
+            * Store users + hashed passwords in DB using bcrypt
+
+Realtime (optional but recommended)
+               * Use polling for MVP (front desk dashboard refresh)
+
+               * Add WebSockets later (Socket.IO) if time
+
+Email/Notifications
+                  * MVP: send via console log + store in Notification table
+
+                  * Optional: integrate SendGrid later
+
+________________
+
+
+2) Multi-tenancy Rules (NON-NEGOTIABLE)
+Tenant isolation must be enforced in every query.
+                     * Every table that stores customer data must include tenantId.
+
+                     * Every API handler must:
+
+                        1. resolve tenantId from the authenticated session, not from request body
+
+                        2. scope all reads/writes by that tenantId
+
+Membership model
+                           * Users can belong to multiple tenants.
+
+                           * User selects “active tenant” after login (store activeTenantId in session token).
+
+________________
+
+
+3) Core Roles (RBAC)
+Implement RBAC with these roles:
+                              * TENANT_OWNER
+
+                              * GLOBAL_ADMIN
+
+                              * LOCATION_ADMIN
+
+                              * FRONT_DESK
+
+                              * HOST
+
+                              * AUDITOR
+
+A user’s role is stored in Membership (user ↔ tenant). Optionally also in LocationMembership for location-scoped roles.
+Enforce RBAC on endpoints:
+                                 * Admin-only: flows, locations, kiosk enrollment, exports, retention, policies
+
+                                 * Front desk: view today visits, manual check-in/out, approvals
+
+                                 * Host: create invites for self, view own invites/visitors
+
+________________
+
+
+4) Data Model (Prisma schema to implement)
+Create these models (minimum fields shown; add createdAt/updatedAt to all):
+Identity & tenancy
+                                    * Tenant: id, name, slug
+
+                                    * User: id, email (unique), name, passwordHash
+
+                                    * Membership: id, tenantId, userId, role, active (bool)
+
+                                    * Location: id, tenantId, name, address, timezone
+
+                                    * KioskDevice: id, tenantId, locationId, name, status, deviceCode, deviceSecretHash, lastSeenAt
+
+Visitor management
+                                       * Visitor: id, tenantId, fullName, email, phone, company, photoUrl (optional), returningKey (optional)
+
+                                       * Flow (VisitorType): id, tenantId, name, locationId (nullable for “global”), configJson
+
+                                       * DocumentTemplate: id, tenantId, name, htmlBody, version
+
+                                       * FlowDocumentRequirement: id, tenantId, flowId, documentTemplateId, required (bool)
+
+Invites & visits
+                                          * Invite: id, tenantId, locationId, hostUserId, visitorName, visitorEmail, startsAt, endsAt, qrTokenHash, status
+
+                                          * Visit: id, tenantId, locationId, flowId, hostUserId, visitorId (nullable until resolved), inviteId (nullable), status, checkedInAt, checkedOutAt, metadataJson
+
+Screening & approvals
+                                             * BlocklistEntry: id, tenantId, matchName, matchEmail, matchPhone, reason, active
+
+                                             * ScreeningResult: id, tenantId, visitId, type (BLOCKLIST|ID_SCAN|WATCHLIST), result (PASS|FAIL|REVIEW), detailsJson
+
+                                             * Approval: id, tenantId, visitId, status (PENDING|APPROVED|DENIED), decidedByUserId (nullable), reasonCode, decidedAt
+
+Notifications, badges, audit, reports
+                                                * Notification: id, tenantId, visitId, channel (EMAIL|SLACK|SMS|IN_APP), to, payloadJson, status, sentAt
+
+                                                * BadgeTemplate: id, tenantId, name, layoutJson
+
+                                                * BadgePrintJob: id, tenantId, visitId, templateId, status, pdfUrl (or store generated PDF in storage), createdByUserId
+
+                                                * AuditLog: id, tenantId, actorUserId, action, entityType, entityId, metadataJson, createdAt
+
+________________
+
+
+5) Flow Builder (Visitor Types)
+Flows are configurable. For MVP, store config as JSON with:
+                                                   * fields: array of { key, label, type, required }
+
+                                                      * types: text, email, phone, company, dropdown, checkbox, signature, photo
+
+                                                         * policies:
+
+                                                            * requireHostApproval (bool)
+
+                                                            * requirePhoto (bool)
+
+                                                            * requireDocumentSign (bool)
+
+                                                            * requireIdScan (bool) (stub for MVP)
+
+                                                            * autoCheckoutAtEndOfDay (bool)
+
+                                                               * badge:
+
+                                                                  * badgeTemplateId
+
+The Admin UI must allow:
+                                                                     * Create/Edit Flow per location
+
+                                                                     * Duplicate a flow
+
+                                                                     * Toggle approvals/docs/photo
+
+                                                                     * Attach Document Templates
+
+________________
+
+
+6) Kiosk App Requirements
+Create a kiosk route:
+                                                                        * /kiosk (device login screen: enter deviceCode or scan)
+
+                                                                        * /kiosk/session (active kiosk UI)
+
+Kiosk authentication:
+                                                                           * Admin enrolls kiosk -> system generates:
+
+                                                                              * deviceCode (short) + deviceSecret (shown once)
+
+                                                                                 * Kiosk “logs in” using code+secret -> gets device JWT token stored in localStorage
+
+                                                                                 * All kiosk check-in API calls use device JWT
+
+Kiosk UX:
+                                                                                    1. Choose visitor type (Flow)
+
+                                                                                    2. Enter details (dynamic form)
+
+                                                                                    3. Show documents to sign if required
+
+                                                                                    4. Optionally capture photo
+
+                                                                                    5. Submit → creates Visit with status:
+
+                                                                                       * PENDING_APPROVAL if approvals required or screening flagged
+
+                                                                                       * CHECKED_IN otherwise
+
+                                                                                          6. On successful check-in:
+
+                                                                                             * show welcome screen
+
+                                                                                             * trigger host notification
+
+                                                                                             * generate badge PDF link + “Print” button
+
+Also add:
+                                                                                                * “Check out” option (search by name or QR) for self-checkout (optional MVP)
+
+________________
+
+
+7) Host + Front Desk Web App Screens
+After login:
+                                                                                                   * Tenant selection page (if multiple)
+
+                                                                                                   * Dashboard navigation:
+
+                                                                                                      * Visitors Today (Front Desk)
+
+                                                                                                      * Invites (Host + Front Desk)
+
+                                                                                                      * Flows (Admin)
+
+                                                                                                      * Locations & Devices (Admin)
+
+                                                                                                      * Logs & Exports (Admin/Auditor)
+
+                                                                                                      * Blocklist (Security/Admin)
+
+Required screens
+                                                                                                         1. Login
+
+                                                                                                         2. Select Tenant (set activeTenantId)
+
+                                                                                                         3. Visitors Today
+
+                                                                                                            * list visits with filters (location, status)
+
+                                                                                                            * approve/deny pending
+
+                                                                                                            * manual check-in (create Visit)
+
+                                                                                                            * check-out
+
+                                                                                                               4. Invites
+
+                                                                                                                  * host creates invite (visitor name/email, date/time window, location)
+
+                                                                                                                  * list upcoming invites
+
+                                                                                                                  * email stub (store notification record)
+
+                                                                                                                     5. Flows
+
+                                                                                                                        * list flows
+
+                                                                                                                        * flow editor (fields + toggles + doc attach)
+
+                                                                                                                           6. Locations & Kiosks
+
+                                                                                                                              * create location
+
+                                                                                                                              * enroll kiosk device
+
+                                                                                                                                 7. Logs & Exports
+
+                                                                                                                                    * visitor log table with date filters
+
+                                                                                                                                    * “Export CSV” for date range/location
+
+                                                                                                                                       8. Blocklist
+
+                                                                                                                                          * CRUD entries
+
+                                                                                                                                          * screening check at check-in time
+
+________________
+
+
+8) API Routes (Next.js Route Handlers)
+All routes must enforce:
+                                                                                                                                             * auth
+
+                                                                                                                                             * tenant scoping
+
+                                                                                                                                             * RBAC
+
+Auth
+                                                                                                                                                * POST /api/auth/login
+
+                                                                                                                                                * POST /api/auth/logout
+
+                                                                                                                                                * GET /api/me
+
+Tenants
+                                                                                                                                                   * GET /api/tenants (memberships)
+
+                                                                                                                                                   * POST /api/tenants/select (set active tenant)
+
+Locations & kiosks
+                                                                                                                                                      * CRUD /api/locations
+
+                                                                                                                                                      * POST /api/kiosks/enroll
+
+                                                                                                                                                      * POST /api/kiosks/login (deviceCode+secret -> device JWT)
+
+                                                                                                                                                      * POST /api/kiosks/heartbeat
+
+Flows + docs
+                                                                                                                                                         * CRUD /api/flows
+
+                                                                                                                                                         * CRUD /api/documents
+
+Invites
+                                                                                                                                                            * POST /api/invites
+
+                                                                                                                                                            * GET /api/invites?locationId&from&to
+
+                                                                                                                                                            * POST /api/invites/:id/resend (stub)
+
+                                                                                                                                                            * GET /api/invites/:id (for kiosk pre-reg)
+
+Visits
+                                                                                                                                                               * POST /api/visits/checkin (kiosk/device auth allowed)
+
+                                                                                                                                                               * POST /api/visits/:id/checkout
+
+                                                                                                                                                               * GET /api/visits?locationId&date&status
+
+                                                                                                                                                               * POST /api/visits/:id/approve
+
+                                                                                                                                                               * POST /api/visits/:id/deny
+
+Badge
+                                                                                                                                                                  * POST /api/badges/:visitId/generate -> returns PDF URL
+
+                                                                                                                                                                  * POST /api/badges/:visitId/print (stub print job)
+
+Exports
+                                                                                                                                                                     * GET /api/exports/visits.csv?from&to&locationId
+
+________________
+
+
+9) Business Logic Rules
+Invite → Visit resolution
+                                                                                                                                                                        * If visitor checks in with invite QR:
+
+                                                                                                                                                                           * match invite by token hash + valid time window
+
+                                                                                                                                                                           * attach inviteId, hostUserId, flowId, locationId
+
+                                                                                                                                                                              * If walk-in:
+
+                                                                                                                                                                                 * no inviteId
+
+Screening
+At check-in:
+                                                                                                                                                                                    * Run blocklist match on name/email/phone (case-insensitive, partial match allowed)
+
+                                                                                                                                                                                    * If match:
+
+                                                                                                                                                                                       * create ScreeningResult FAIL
+
+                                                                                                                                                                                       * set visit status = PENDING_APPROVAL
+
+                                                                                                                                                                                       * require staff decision
+
+Approval
+                                                                                                                                                                                          * If flow requires approval OR screening triggers review:
+
+                                                                                                                                                                                             * create Approval PENDING
+
+                                                                                                                                                                                                * Approve → status becomes CHECKED_IN
+
+                                                                                                                                                                                                * Deny → status becomes DENIED and do not generate badge
+
+Notifications
+When CHECKED_IN:
+                                                                                                                                                                                                   * Create Notification record to host (email stub)
+
+                                                                                                                                                                                                   * Show in-app banner for host dashboard
+
+Sign-out
+                                                                                                                                                                                                      * Manual sign-out by front desk
+
+                                                                                                                                                                                                      * Optional auto sign-out nightly for open visits if flow policy says so
+
+________________
+
+
+10) Badge PDF (MVP)
+Implement a simple badge generator:
+                                                                                                                                                                                                         * Use a Node PDF library (pdf-lib or similar)
+
+                                                                                                                                                                                                         * Badge includes:
+
+                                                                                                                                                                                                            * visitor full name
+
+                                                                                                                                                                                                            * company
+
+                                                                                                                                                                                                            * host name
+
+                                                                                                                                                                                                            * location name
+
+                                                                                                                                                                                                            * check-in date/time
+
+                                                                                                                                                                                                            * QR code linking to /visit/:id (or encoded visit id)
+
+                                                                                                                                                                                                               * Store generated PDF in:
+
+                                                                                                                                                                                                                  * either public folder with unique filename
+
+                                                                                                                                                                                                                  * or in-memory generation with download response
+
+Add “Print” button that triggers browser print dialog.
+________________
+
+
+11) Security Requirements
+                                                                                                                                                                                                                     * Passwords hashed with bcrypt
+
+                                                                                                                                                                                                                     * Rate-limit login route (basic)
+
+                                                                                                                                                                                                                     * Protect against IDOR: all endpoints must check tenantId and membership
+
+                                                                                                                                                                                                                     * Device secrets never stored in plain text (store hash)
+
+                                                                                                                                                                                                                     * AuditLog entries for:
+
+                                                                                                                                                                                                                        * create/update/delete flows
+
+                                                                                                                                                                                                                        * approvals/denials
+
+                                                                                                                                                                                                                        * exports triggered
+
+                                                                                                                                                                                                                        * kiosk enrollments
+
+________________
+
+
+12) Replit Setup Instructions (must be included in final output)
+The project must include:
+                                                                                                                                                                                                                           * .env.example with:
+
+                                                                                                                                                                                                                              1. DATABASE_URL
+
+                                                                                                                                                                                                                              2. AUTH_SECRET
+
+                                                                                                                                                                                                                              3. APP_URL
+
+                                                                                                                                                                                                                                 * README.md:
+
+                                                                                                                                                                                                                                    1. install steps
+
+                                                                                                                                                                                                                                    2. npx prisma migrate dev
+
+                                                                                                                                                                                                                                    3. npm run dev
+
+                                                                                                                                                                                                                                    4. seed script to create:
+
+                                                                                                                                                                                                                                       * demo tenant
+
+                                                                                                                                                                                                                                       * demo location
+
+                                                                                                                                                                                                                                       * demo admin user (email/password)
+
+                                                                                                                                                                                                                                       * demo host user
+
+                                                                                                                                                                                                                                       * default flow
+
+                                                                                                                                                                                                                                          * Provide a “Demo Walkthrough” in README:
+
+                                                                                                                                                                                                                                             1. login as admin
+
+                                                                                                                                                                                                                                             2. create kiosk device
+
+                                                                                                                                                                                                                                             3. open kiosk URL
+
+                                                                                                                                                                                                                                             4. create invite as host
+
+                                                                                                                                                                                                                                             5. check in and approve
+
+________________
+
+
+13) Delivery Milestones (build in this order)
+Milestone 1: Foundation
+                                                                                                                                                                                                                                                * Next.js app boots
+
+                                                                                                                                                                                                                                                * Prisma connected
+
+                                                                                                                                                                                                                                                * Auth working
+
+                                                                                                                                                                                                                                                * Tenant selection + membership enforcement
+
+Milestone 2: Admin + flows
+                                                                                                                                                                                                                                                   * Locations CRUD
+
+                                                                                                                                                                                                                                                   * Flow builder + save config JSON
+
+                                                                                                                                                                                                                                                   * Document templates + attach to flows
+
+Milestone 3: Kiosk check-in
+                                                                                                                                                                                                                                                      * Kiosk device login
+
+                                                                                                                                                                                                                                                      * Dynamic form rendering from flow config
+
+                                                                                                                                                                                                                                                      * Create Visit + optionally Approval
+
+Milestone 4: Front desk dashboard
+                                                                                                                                                                                                                                                         * Visitors today list
+
+                                                                                                                                                                                                                                                         * Approve/deny
+
+                                                                                                                                                                                                                                                         * Check-out
+
+Milestone 5: Invites + QR
+                                                                                                                                                                                                                                                            * Create invite
+
+                                                                                                                                                                                                                                                            * Generate QR token
+
+                                                                                                                                                                                                                                                            * Kiosk accepts QR token to prefill visitor info
+
+Milestone 6: Badge + export
+                                                                                                                                                                                                                                                               * Badge PDF generation
+
+                                                                                                                                                                                                                                                               * CSV export visitor log
+
+Stop after MVP is stable. Then propose next iterations.
+________________
+
+
+14) Definition of Done (MVP)
+MVP is done when:
+                                                                                                                                                                                                                                                                  * Two different tenants can exist with separate data.
+
+                                                                                                                                                                                                                                                                  * Admin can create location + kiosk + flow.
+
+                                                                                                                                                                                                                                                                  * Host can create invite.
+
+                                                                                                                                                                                                                                                                  * Visitor can check in at kiosk (walk-in or invite).
+
+                                                                                                                                                                                                                                                                  * If approval required, front desk can approve and visitor becomes checked-in.
+
+                                                                                                                                                                                                                                                                  * Badge PDF can be generated and printed.
+
+                                                                                                                                                                                                                                                                  * Visitor log exports to CSV.
+
+                                                                                                                                                                                                                                                                  * No endpoint leaks data across tenants (basic tests included).
+
+________________

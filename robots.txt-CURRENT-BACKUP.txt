@@ -1,0 +1,102 @@
+# ===========================================
+# Sanjal.com Robots Configuration
+# Optimized: High-Performance SEO & AI
+# Platform: Sanjal
+# ===========================================
+
+Sitemap: https://sanjal.com/sitemap.xml
+
+# -------------------------------------------
+# 1. Global Rules (User-agent: *)
+# -------------------------------------------
+User-agent: *
+
+# --- CRITICAL: Save Crawl Budget (Don't index these) ---
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /email/
+Disallow: /session
+Disallow: /my
+Disallow: /user-api-key
+Disallow: /search
+Disallow: /g
+Disallow: /badges
+Disallow: /groups/
+
+# --- BLOCK PROFILES: Focus SEO on Content, not Users ---
+# (User profiles are low-quality pages for SEO)
+Disallow: /u/
+Disallow: /users/
+Disallow: /p/
+
+# --- BLOCK DUPLICATE VIEWS ---
+Disallow: /*?print=
+Disallow: /*?order=
+Disallow: /*?status=
+Disallow: /*?ascending=
+Disallow: /*?descending=
+Disallow: /t/*/*.rss
+Disallow: /c/*.rss
+
+# --- BLOCK JUNK PARAMS ---
+Disallow: /*?api_key*
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+
+# --- ALLOW ASSETS ---
+Allow: /uploads/
+Allow: /stylesheets/
+Allow: /images/
+
+# -------------------------------------------
+# 2. The "AI Green List" (Explicitly Welcome AI)
+# -------------------------------------------
+# OpenAI (ChatGPT)
+User-agent: GPTBot
+Allow: /
+
+# Common Crawl (Used to train most future AIs)
+User-agent: CCBot
+Allow: /
+
+# Google's AI
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# -------------------------------------------
+# 3. Block Useless Scrapers (Save Server CPU)
+# -------------------------------------------
+User-agent: mauibot
+Disallow: /
+
+User-agent: semrushbot
+Disallow: /
+
+User-agent: ahrefsbot
+Disallow: /
+
+User-agent: blexbot
+Disallow: /
+
+User-agent: seo spider
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
