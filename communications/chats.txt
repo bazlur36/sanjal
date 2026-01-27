@@ -326,6 +326,28 @@ ok
 Laxman Kafle
 Jan 27 11:30 PM
 https://dribbble.com/shots/4138600-Quora-com-Redesign-Day-23-365-Project365 we want to make a combo of reddit and threads , quora
+
+
+Wednesday, Jan 28
+Bazlur Rashid
+12:23 AM
+let me analyze them and get back to you Laxman
+
+Bazlur Rashid
+2:37 AM Jan 28
+
+Hi Laxman,
+I am working on creating a visual HTML mockup based on the Dribbble reference you shared - the "combo of reddit + threads + quora" design for Sanjal.com.
+I will share the mockup with you within tomorrow for your approval before implementing anything in Discourse.
+
+The mockup will show:
+• Clean, modern look with whitespace (Threads-inspired)
+• Card-based topics with shadows (Reddit-inspired)
+• Professional, minimal design (Quora-inspired)
+• Using actual Sanjal topics (Nepal Cricket, Nepali Cinema, Nepal Digital Services etc.)
+
+Once you approve the design direction, I will implement it in Discourse via a theme component.
+Will update you tomorrow with the mockup!
 ================================================================================
 
 DELIVERABLES PREPARED:

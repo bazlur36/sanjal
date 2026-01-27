@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjal.com - Modern Homepage Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e8eaed;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 32px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-bar input:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 1px 6px rgba(26,115,232,0.2);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1557b0;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 24px;
+        }
+
+        /* Categories Section */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #e8eaed;
+        }
+
+        .category-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .category-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #202124;
+        }
+
+        .category-count {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 4px;
+        }
+
+        /* Topics Feed */
+        .topics-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .topic-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            border: 1px solid #e8eaed;
+        }
+
+        .topic-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .topic-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .topic-meta {
+            flex: 1;
+        }
+
+        .topic-author {
+            font-weight: 600;
+            font-size: 14px;
+            color: #202124;
+        }
+
+        .topic-time {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .topic-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e8f0fe;
+            color: #1a73e8;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .topic-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .topic-excerpt {
+            font-size: 15px;
+            color: #5f6368;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .topic-footer {
+            display: flex;
+            gap: 24px;
+            color: #5f6368;
+            font-size: 13px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f3f4;
+        }
+
+        .topic-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topic-stat:hover {
+            color: #1a73e8;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e8eaed;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #202124;
+        }
+
+        .trending-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-item:hover {
+            color: #1a73e8;
+        }
+
+        .trending-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .trending-meta {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .search-bar {
+                margin: 0 16px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-container {
+                padding: 0 16px;
+            }
+
+            .container {
+                padding: 0 16px;
+                margin: 16px auto;
+            }
+
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .topic-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">Sanjal</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search discussions...">
+            </div>
+            <div class="header-actions">
+                <button class="btn-primary">+ New Topic</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Main Feed -->
+        <main>
+            <!-- Categories -->
+            <div class="categories">
+                <div class="category-card">
+                    <div class="category-icon">🏏</div>
+                    <div class="category-name">Nepal Cricket</div>
+                    <div class="category-count">20 topics</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎬</div>
+                    <div class="category-name">Nepali Cinema</div>
+                    <div class="category-count">6 topics</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💻</div>
+                    <div class="category-name">Technology</div>
+                    <div class="category-count">23 topics</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎯</div>
+                    <div class="category-name">Sports</div>
+                    <div class="category-count">15 topics</div>
+                </div>
+            </div>
+
+            <!-- Topics Feed -->
+            <div class="topics-feed">
+                <!-- Topic 1 -->
+                <article class="topic-card">
+                    <div class="topic-header">
+                        <div class="topic-avatar">A</div>
+                        <div class="topic-meta">
+                            <div class="topic-author">Anil Kumar</div>
+                            <div class="topic-time">2 hours ago</div>
+                        </div>
+                        <span class="topic-category">Nepal Cricket</span>
+                    </div>
+                    <h2 class="topic-title">Nepal vs UAE Cricket Match: Complete Analysis and Player Performance</h2>
+                    <p class="topic-excerpt">Nepal's recent cricket match against UAE showed promising results. The team demonstrated excellent batting strategy in the second innings...</p>
+                    <div class="topic-footer">
+                        <div class="topic-stat">👍 24 Likes</div>
+                        <div class="topic-stat">💬 15 Replies</div>
+                        <div class="topic-stat">👁️ 342 Views</div>
+                    </div>
+                </article>
+
+                <!-- Topic 2 -->
+                <article class="topic-card">
+                    <div class="topic-header">
+                        <div class="topic-avatar">P</div>
+                        <div class="topic-meta">
+                            <div class="topic-author">Priya Sharma</div>
+                            <div class="topic-time">5 hours ago</div>
+                        </div>
+                        <span class="topic-category">Nepali Cinema</span>
+                    </div>
+                    <h2 class="topic-title">Jerry on Top Movie Review: A Fresh Take on Nepali Comedy</h2>
+                    <p class="topic-excerpt">The latest Nepali movie "Jerry on Top" brings a refreshing perspective to comedy cinema. Director's unique storytelling combined with stellar performances...</p>
+                    <div class="topic-footer">
+                        <div class="topic-stat">👍 18 Likes</div>
+                        <div class="topic-stat">💬 8 Replies</div>
+                        <div class="topic-stat">👁️ 256 Views</div>
+                    </div>
+                </article>
+
+                <!-- Topic 3 -->
+                <article class="topic-card">
+                    <div class="topic-header">
+                        <div class="topic-avatar">R</div>
+                        <div class="topic-meta">
+                            <div class="topic-author">Rajesh Thapa</div>
+                            <div class="topic-time">1 day ago</div>
+                        </div>
+                        <span class="topic-category">Technology</span>
+                    </div>
+                    <h2 class="topic-title">ChatGPT and AI Revolution in Nepal: Opportunities and Challenges</h2>
+                    <p class="topic-excerpt">Artificial Intelligence tools like ChatGPT are transforming how we work and learn. What are the implications for Nepal's tech sector and education system?</p>
+                    <div class="topic-footer">
+                        <div class="topic-stat">👍 45 Likes</div>
+                        <div class="topic-stat">💬 32 Replies</div>
+                        <div class="topic-stat">👁️ 523 Views</div>
+                    </div>
+                </article>
+
+                <!-- Topic 4 -->
+                <article class="topic-card">
+                    <div class="topic-header">
+                        <div class="topic-avatar">S</div>
+                        <div class="topic-meta">
+                            <div class="topic-author">Sita Paudel</div>
+                            <div class="topic-time">1 day ago</div>
+                        </div>
+                        <span class="topic-category">Technology</span>
+                    </div>
+                    <h2 class="topic-title">Nepal E-Passport: Complete Guide to Application Process</h2>
+                    <p class="topic-excerpt">Nepal's new e-passport system has made international travel easier. Here's everything you need to know about applying for your e-passport...</p>
+                    <div class="topic-footer">
+                        <div class="topic-stat">👍 67 Likes</div>
+                        <div class="topic-stat">💬 28 Replies</div>
+                        <div class="topic-stat">👁️ 891 Views</div>
+                    </div>
+                </article>
+
+                <!-- Topic 5 -->
+                <article class="topic-card">
+                    <div class="topic-header">
+                        <div class="topic-avatar">M</div>
+                        <div class="topic-meta">
+                            <div class="topic-author">Mahabir Pun</div>
+                            <div class="topic-time">2 days ago</div>
+                        </div>
+                        <span class="topic-category">Technology</span>
+                    </div>
+                    <h2 class="topic-title">Mahabir Pun's Contribution to Rural Internet Connectivity in Nepal</h2>
+                    <p class="topic-excerpt">Dr. Mahabir Pun's pioneering work in bringing internet to remote Himalayan villages has transformed lives. Let's discuss his qualification and achievements...</p>
+                    <div class="topic-footer">
+                        <div class="topic-stat">👍 89 Likes</div>
+                        <div class="topic-stat">💬 41 Replies</div>
+                        <div class="topic-stat">👁️ 1.2k Views</div>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Trending Topics -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">🔥 Trending Topics</h3>
+                <div class="trending-item">
+                    <div class="trending-title">Nepal vs UAE Cricket Match</div>
+                    <div class="trending-meta">54 views today</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-title">ChatGPT in Nepal</div>
+                    <div class="trending-meta">42 views today</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-title">E-Passport Application</div>
+                    <div class="trending-meta">38 views today</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-title">Nepali Movie Reviews</div>
+                    <div class="trending-meta">31 views today</div>
+                </div>
+            </div>
+
+            <!-- Popular Categories -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">📂 Popular Categories</h3>
+                <div class="trending-item">
+                    <div class="trending-title">Technology</div>
+                    <div class="trending-meta">23 topics</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-title">Nepal Cricket</div>
+                    <div class="trending-meta">20 topics</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-title">Sports</div>
+                    <div class="trending-meta">15 topics</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

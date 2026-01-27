@@ -1,0 +1,415 @@
+/* ============================================
+   SANJAL MODERN UI COMPONENT
+   Reddit + Threads + Quora Inspired Design
+   Compatible with FKB Pro Theme
+   ============================================ */
+
+/* ============================================
+   1. TYPOGRAPHY
+   Modern system fonts, better readability
+   ============================================ */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #202124;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+}
+
+/* Better heading hierarchy */
+.topic-list .topic-title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.fancy-title h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* ============================================
+   2. LAYOUT & SPACING
+   More whitespace, better breathing room
+   ============================================ */
+
+.wrap, #main-outlet {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Better content spacing */
+.container {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+/* ============================================
+   3. CARD-BASED TOPIC LIST
+   Reddit-inspired card layout
+   ============================================ */
+
+.topic-list-item {
+    background: #ffffff;
+    border: 1px solid #e8eaed;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.topic-list-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    border-color: #dadce0;
+}
+
+/* Remove default borders */
+.topic-list tbody tr {
+    border-bottom: none;
+}
+
+/* Topic body spacing */
+.topic-list .topic-list-data {
+    padding: 8px 0;
+}
+
+/* ============================================
+   4. COLORS & ACCENTS
+   Clean, professional palette
+   ============================================ */
+
+/* Primary brand color */
+.badge-wrapper.box,
+.badge-category,
+a.badge-category {
+    background: #e8f0fe;
+    color: #1a73e8;
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Links */
+a {
+    color: #1a73e8;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #1557b0;
+}
+
+/* Category badges on topic list */
+.topic-category {
+    background: #e8f0fe !important;
+    color: #1a73e8 !important;
+}
+
+/* ============================================
+   5. HEADER & NAVIGATION
+   Cleaner, more minimal
+   ============================================ */
+
+.d-header {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    border-bottom: 1px solid #e8eaed;
+}
+
+.d-header-icons .icon {
+    color: #5f6368;
+}
+
+.d-header-icons .icon:hover {
+    color: #202124;
+}
+
+/* Search */
+.search-menu input[type="text"] {
+    border-radius: 24px;
+    border: 1px solid #dfe1e5;
+    padding: 10px 16px;
+}
+
+.search-menu input[type="text"]:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 1px 6px rgba(26,115,232,0.2);
+}
+
+/* ============================================
+   6. BUTTONS
+   More modern styling
+   ============================================ */
+
+.btn-primary {
+    background: #1a73e8;
+    border-radius: 24px;
+    font-weight: 500;
+    transition: background 0.2s;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #1557b0;
+}
+
+/* ============================================
+   7. CATEGORY PAGES
+   Better category presentation
+   ============================================ */
+
+.category-list tbody .category {
+    border-left: 3px solid #1a73e8;
+    padding-left: 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.category-list-item {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #e8eaed;
+}
+
+/* ============================================
+   8. TOPIC POST STYLING
+   Cleaner post display
+   ============================================ */
+
+.topic-post {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid #e8eaed;
+}
+
+.topic-body {
+    clear: both;
+    padding-top: 16px;
+}
+
+/* Post metadata */
+.post-info {
+    color: #5f6368;
+    font-size: 13px;
+}
+
+/* ============================================
+   9. AVATARS
+   Cleaner avatar styling
+   ============================================ */
+
+.avatar {
+    border-radius: 50%;
+}
+
+.avatar-flair {
+    border-radius: 50%;
+}
+
+/* ============================================
+   10. MOBILE RESPONSIVE
+   Better mobile experience
+   ============================================ */
+
+@media (max-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+    
+    .wrap, #main-outlet {
+        padding: 0 16px;
+    }
+    
+    .topic-list-item {
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .topic-list .topic-title {
+        font-size: 16px;
+    }
+    
+    /* Larger touch targets on mobile */
+    .btn {
+        min-height: 44px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .topic-list-item {
+        padding: 14px;
+    }
+    
+    .category-list-item {
+        padding: 12px;
+    }
+}
+
+/* ============================================
+   11. STATS & METADATA
+   Better visual hierarchy
+   ============================================ */
+
+.topic-list .num.posts,
+.topic-list .num.views,
+.topic-list .num.likes {
+    color: #5f6368;
+    font-size: 13px;
+}
+
+/* Activity indicators */
+.topic-list .num.posts a,
+.topic-list .num.views .number {
+    color: #5f6368;
+}
+
+/* ============================================
+   12. TAGS
+   Modern tag styling
+   ============================================ */
+
+.discourse-tag {
+    background: #f1f3f4;
+    color: #5f6368;
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-size: 12px;
+    border: none;
+}
+
+.discourse-tag:hover {
+    background: #e8eaed;
+    color: #202124;
+}
+
+/* ============================================
+   13. NOTIFICATIONS
+   Cleaner notification badges
+   ============================================ */
+
+.badge-notification {
+    background: #1a73e8;
+    border-radius: 10px;
+}
+
+.badge-notification.unread {
+    background: #ea4335;
+}
+
+/* ============================================
+   14. TOPIC TIMELINE
+   Better timeline styling
+   ============================================ */
+
+.timeline-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e8eaed;
+}
+
+/* ============================================
+   15. COMPOSER
+   Modern composer styling
+   ============================================ */
+
+#reply-control {
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+}
+
+.d-editor-textarea-wrapper {
+    border-radius: 8px;
+}
+
+/* ============================================
+   16. USER CARDS
+   Cleaner user card design
+   ============================================ */
+
+.user-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border: 1px solid #e8eaed;
+}
+
+/* ============================================
+   17. PAGINATION
+   Better pagination styling
+   ============================================ */
+
+.pagination {
+    margin: 24px 0;
+}
+
+.pagination button {
+    border-radius: 8px;
+    border: 1px solid #e8eaed;
+}
+
+/* ============================================
+   18. SIDEBAR (if applicable)
+   Modern sidebar styling
+   ============================================ */
+
+.sidebar-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #e8eaed;
+}
+
+/* ============================================
+   19. LOADING & ANIMATIONS
+   Smooth transitions
+   ============================================ */
+
+.loading-container {
+    background: white;
+    border-radius: 12px;
+}
+
+/* Smooth transitions for interactive elements */
+.topic-list-item,
+.btn,
+.badge-wrapper,
+a {
+    transition: all 0.2s ease;
+}
+
+/* ============================================
+   20. FOOTER
+   Cleaner footer
+   ============================================ */
+
+#footer-info {
+    margin-top: 48px;
+    padding: 24px 0;
+    border-top: 1px solid #e8eaed;
+    color: #5f6368;
+}
+
+/* ============================================
+   END OF SANJAL MODERN UI COMPONENT
+   ============================================ */
+
+/* Additional refinements can be made based on:
+   - Client feedback
+   - Specific FKB Pro theme conflicts
+   - Browser compatibility testing
+   - Performance optimization
+*/
